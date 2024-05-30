@@ -68,7 +68,7 @@
                     const data = await response.json();
                     localStorage.setItem('token', data.access); // Store JWT token in localStorage
                     alert('Login successful');
-                    window.location.href = 'localhost:5501/frontend/contact.html'; // Redirect to contact page
+                    window.location.href = 'https://nitrozeuss.github.io/myself/contact.html'; // Redirect to contact page
                 } else {
                     const errorData = await response.json();
                     alert('Login failed: ' + (errorData.detail || 'Invalid credentials.'));
