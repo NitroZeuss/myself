@@ -1,95 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #282c34;
-            color: #ffffff;
-        }
-        .login-container {
-            background: #3b3f47;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        .login-container h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .login-container label {
-            display: block;
-            margin-bottom: 8px;
-        }
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: none;
-            border-radius: 4px;
-        }
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            background: #61dafb;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .login-container button:hover {
-            background: #21a1f1;
-        }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #282c34;
+        color: #ffffff;
+      }
+      .login-container {
+        background: #3b3f47;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .login-container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .login-container label {
+        display: block;
+        margin-bottom: 8px;
+      }
+      .login-container input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 4px;
+      }
+      .login-container button {
+        width: 100%;
+        padding: 10px;
+        background: #61dafb;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .login-container button:hover {
+        background: #21a1f1;
+      }
     </style>
     <script>
-        async function login(event) {
-            event.preventDefault();
+      async function login(event) {
+        event.preventDefault();
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
 
-            try {
-                const response = await fetch('http://127.0.0.1:8000/auth/jwt/create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username, password }),
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    localStorage.setItem('token', data.access); // Store JWT token in localStorage
-                    alert('Login successful');
-                    window.location.href = 'https://nitrozeuss.github.io/myself/contact.html'; // Redirect to contact page
-                } else {
-                    const errorData = await response.json();
-                    alert('Login failed: ' + (errorData.detail || 'Invalid credentials.'));
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
+        try {
+          const response = await fetch(
+            "http://127.0.0.1:8000/auth/jwt/create",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ username, password }),
             }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem("token", data.access); // Store JWT token in localStorage
+            alert("Login successful");
+            window.location.href =
+              "https://nitrozeuss.github.io/myself/contact.html"; // Redirect to contact page
+          } else {
+            const errorData = await response.json();
+            alert(
+              "Login failed: " + (errorData.detail || "Invalid credentials.")
+            );
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("An error occurred. Please try again.");
         }
+      }
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="login-container">
-        <h1>Login</h1>
-        <form onsubmit="login(event)">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
-        </form>
+      <h1>Login</h1>
+      <form onsubmit="login(event)">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <button type="submit">Login</button>
+      </form>
     </div>
-</body>
+  </body>
 </html>
