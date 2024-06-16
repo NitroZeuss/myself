@@ -1,97 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact Form</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #0f2027;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #0f2027;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
 
-        .contact-container {
-            background-color: #1b3a4b;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            width: 300px;
-            text-align: center;
-        }
+      .contact-container {
+        background-color: #1b3a4b;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        width: 300px;
+        text-align: center;
+      }
 
-        .contact-container h1 {
-            margin-bottom: 20px;
-        }
+      .contact-container h1 {
+        margin-bottom: 20px;
+      }
 
-        .contact-container label {
-            display: block;
-            margin: 10px 0 5px;
-        }
+      .contact-container label {
+        display: block;
+        margin: 10px 0 5px;
+      }
 
-        .contact-container input, .contact-container textarea {
-            width: 100%;
-            padding: 8px;
-            border: none;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
+      .contact-container input,
+      .contact-container textarea {
+        width: 100%;
+        padding: 8px;
+        border: none;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
 
-        .contact-container button {
-            background-color: #3498db;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+      .contact-container button {
+        background-color: #3498db;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
 
-        .contact-container button:hover {
-            background-color: #2980b9;
-        }
+      .contact-container button:hover {
+        background-color: #2980b9;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="contact-container">
-        <h1>Contact Us</h1>
-        <form id="contact-form" action="https://persona-0wrc.onrender.com/contact/message/" method="post">
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title" required>
+      <h1>Contact Us</h1>
+      <form
+        id="contact-form"
+        action="https://persona-0wrc.onrender.com/contact/message/"
+        method="post"
+      >
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required />
 
-            <label for="contact">Contact</label>
-            <textarea id="contact" name="contact" required></textarea>
+        <label for="contact">Contact</label>
+        <textarea id="contact" name="contact" required></textarea>
 
-            <button type="submit">Submit</button>
-        </form>
+        <button type="submit">Submit</button>
+      </form>
     </div>
     <script>
-        document.getElementById('contact-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+      const API_BASE_URL = "https://persona-0wrc.onrender.com";
 
-            const title = document.getElementById('title').value;
-            const contact = document.getElementById('contact').value;
+      async function submitContactForm(event) {
+        event.preventDefault();
 
-            fetch('https://persona-0wrc.onrender.com/contact/message/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ title, contact }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Success: ' + data.message);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was an error!');
-            });
-        });
+        const message = document.getElementById("message").value;
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/contact/message/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ content: message }),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || "Unknown error occurred");
+          }
+
+          const responseData = await response.json();
+          alert("Message sent successfully!");
+          document.getElementById("message").value = "";
+        } catch (error) {
+          console.error("Error:", error);
+          alert(`Failed to post message. Error: ${error.message}`);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector(".contact-form");
+        form.addEventListener("submit", submitContactForm);
+      });
     </script>
-</body>
+  </body>
 </html>
