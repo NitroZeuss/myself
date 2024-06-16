@@ -1,170 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
     <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        margin: 0;
-        transform: scale(1);
-        background: url(images/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png)
-          no-repeat center center fixed;
-        background-size: cover;
-        color: #f1f1f1;
-        font-family: "JetBrains Mono", monospace;
-      }
-      header {
-        background-color: rgba(0, 0, 0, 0.7);
-        padding: 20px;
-        text-align: center;
-      }
-      header img {
-        height: 90px;
-        width: auto;
-      }
-      nav ul {
-        list-style-type: none;
-        padding: 0;
-        text-align: center;
-      }
-      nav ul li {
-        display: inline;
-        margin: 0 15px;
-      }
-      nav ul li a {
-        color: #f1f1f1;
-        text-decoration: none;
-        font-size: 18px;
-      }
-      nav ul li a:hover {
-        text-decoration: underline;
-      }
-      main {
-        flex: 1;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.7);
-      }
-      .contact-form {
-        max-width: 600px;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      }
-      .contact-form h1 {
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 24px;
-      }
-      .contact-form label {
-        display: block;
-        margin-bottom: 8px;
-        color: #f1f1f1;
-      }
-      .contact-form textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: none;
-        border-radius: 4px;
-        resize: vertical;
-        padding-right: 10px;
-      }
-      .contact-form button {
-        width: 100%;
-        padding: 10px 20px;
-        background: #555;
-        border: none;
-        border-radius: 4px;
-        color: #f1f1f1;
-        cursor: pointer;
-        font-size: 16px;
-      }
-      .contact-form button:hover {
-        background: #777;
-      }
-      footer {
-        text-align: center;
-        padding: 20px;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-      }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background: url(images/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png) no-repeat center center fixed;
+            background-size: cover;
+            color: #f1f1f1;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #f1f1f1;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .contact-form {
+            max-width: 600px;
+            width: 100%;
+            background: black;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .contact-form h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f1f1f1;
+        }
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .contact-form button {
+            width: 100%;
+            padding: 10px 20px;
+            background: #555;
+            border: none;
+            border-radius: 4px;
+            color: #f1f1f1;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .contact-form button:hover {
+            background: #777;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
     </style>
     <script>
-      async function submitContactForm(event) {
-        event.preventDefault();
+        const API_BASE_URL = 'https://persona-0wrc.onrender.com';
 
-        const message = document.getElementById("message").value;
+        async function submitContactForm(event) {
+            event.preventDefault();
 
-        try {
-          const token = localStorage.getItem("token"); // Retrieve JWT token from localStorage
-          if (!token) {
-            alert("User not authenticated. Please log in.");
-            return;
-          }
+            const message = document.getElementById('message').value;
 
-          const response = await fetch(
-            "http://127.0.0.1:8000/intract/message/",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `JWT ${token}`, // Include JWT token in the request headers
-              },
-              body: JSON.stringify({ content: message }),
+            try {
+                const response = await fetch(`${API_BASE_URL}/contact/message/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ content: message })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail);
+                }
+
+                const responseData = await response.json();
+                alert('Message sent successfully!');
+                document.getElementById('message').value = '';
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to post message. Please try again.');
             }
-          );
-
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail);
-          }
-
-          const responseData = await response.json();
-          alert("Message sent successfully!"); // Display success message
-
-          // Optionally, reset the form after posting the message
-          document.getElementById("message").value = "";
-        } catch (error) {
-          console.error("Error:", error);
-          alert("Failed to post message. Please try again.");
         }
-      }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const form = document.querySelector(".contact-form");
-        form.addEventListener("submit", submitContactForm);
-      });
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('.contact-form');
+            form.addEventListener('submit', submitContactForm);
+        });
     </script>
-  </head>
-  <body>
+</head>
+<body>
     <header>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/frontend/contact.html">Contact</a></li>
-        </ul>
-      </nav>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="https://nitrozeuss.github.io/myself/contact.html">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
-      <form class="contact-form">
-        <h1>Contact Us</h1>
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="4" required></textarea>
-        <button type="submit">Send</button>
-      </form>
+        <form class="contact-form">
+            <h1>Contact Us</h1>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+            <button type="submit">Send</button>
+        </form>
     </main>
-
-    <footer>&copy; Anthem Studio</footer>
-  </body>
+    
+    <footer>
+        &copy; Anthem Studio
+    </footer>
+</body>
 </html>
