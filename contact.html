@@ -70,28 +70,34 @@
         </form>
     </div>
     <script>
-        document.getElementById('contact-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-            const title = document.getElementById('title').value;
-            const contact = document.getElementById('contact').value;
+        const title = document.getElementById('title').value;
+        const contact = document.getElementById('contact').value;
 
-            fetch('https://persona-0wrc.onrender.com/contact/message/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ title, contact }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Success: ' + data.message);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was an error: ' + error.message);
-            });
+        fetch('https://persona-0wrc.onrender.com/contact/message/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ title, contact }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Success: ' + data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('There was an error: ' + error.message);
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
