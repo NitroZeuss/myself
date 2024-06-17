@@ -1,114 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact Form</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #0f2027;
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
-
-      .contact-container {
-        background-color: #1b3a4b;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        width: 300px;
-        text-align: center;
-      }
-
-      .contact-container h1 {
-        margin-bottom: 20px;
-      }
-
-      .contact-container label {
-        display: block;
-        margin: 10px 0 5px;
-      }
-
-      .contact-container input,
-      .contact-container textarea {
-        width: 100%;
-        padding: 8px;
-        border: none;
-        border-radius: 4px;
-        margin-bottom: 10px;
-      }
-
-      .contact-container button {
-        background-color: #3498db;
-        color: #fff;
-        padding: 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-
-      .contact-container button:hover {
-        background-color: #2980b9;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="contact-container">
-      <h1>Contact Us</h1>
-      <form
-        id="contact-form"
-        action="https://persona-0wrc.onrender.com/contact/message/"
-        method="post"
-      >
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title" required />
-
-        <label for="contact">Contact</label>
-        <textarea id="contact" name="contact" required></textarea>
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-    <script>
-      const API_BASE_URL = "https://persona-0wrc.onrender.com";
-
-      async function submitContactForm(event) {
-        event.preventDefault();
-
-        const message = document.getElementById("message").value;
-
-        try {
-          const response = await fetch(`${API_BASE_URL}/contact/message/`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ content: message }),
-          });
-
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || "Unknown error occurred");
-          }
-
-          const responseData = await response.json();
-          alert("Message sent successfully!");
-          document.getElementById("message").value = "";
-        } catch (error) {
-          console.error("Error:", error);
-          alert(`Failed to post message. Error: ${error.message}`);
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            background: url('images/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #f1f1f1;
+            font-family: 'JetBrains Mono', monospace;
         }
-      }
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #f1f1f1;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .contact-form {
+            max-width: 600px;
+            width: 100%;
+            background: black;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .contact-form h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f1f1f1;
+        }
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .contact-form button {
+            width: 100%;
+            padding: 10px 20px;
+            background: #555;
+            border: none;
+            border-radius: 4px;
+            color: #f1f1f1;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .contact-form button:hover {
+            background: #777;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+    </style>
+    <script>
+        const API_BASE_URL = 'https://persona-0wrc.onrender.com';
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const form = document.querySelector(".contact-form");
-        form.addEventListener("submit", submitContactForm);
-      });
+        async function submitContactForm(event) {
+            event.preventDefault();
+
+            const messageContent = document.getElementById('message').value;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/contact/message/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ content: messageContent })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Unknown error occurred');
+                }
+
+                const responseData = await response.json();
+                alert('Message sent successfully!');
+                document.getElementById('message').value = '';
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Failed to post message. Error: ${error.message}`);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('.contact-form');
+            form.addEventListener('submit', submitContactForm);
+        });
     </script>
-  </body>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="https://nitrozeuss.github.io/myself/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <form class="contact-form">
+            <h1>Contact Us</h1>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </main>
+    
+    <footer>
+        &copy; Anthem Studio
+    </footer>
+</body>
 </html>
